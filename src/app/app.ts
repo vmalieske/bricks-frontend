@@ -1,22 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ApiService } from './core/api.service';
+import { ApiService } from './core/services/api.service';
+import { RouterOutlet } from '@angular/router';
+import { Header } from './shared/components/header/header';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: `
-    <h1>Klemmbaustein-App</h1>
-    <p>Backend: {{ status() }}</p>
-  `,
+  templateUrl: './app.html',
+  imports: [RouterOutlet, Header],
 })
-export class App implements OnInit{
-    private api = inject(ApiService);
-  status = signal('wird geprüft…');
-
-  ngOnInit() {
-    this.api.get<{ status: string }>('/health').subscribe({
-      next: (res) => this.status.set(res.status),
-      error: () => this.status.set('nicht erreichbar'),
-    });
-  }
+export class App {
+  title = 'Bricks';
 }

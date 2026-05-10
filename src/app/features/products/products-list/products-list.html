@@ -1,0 +1,22 @@
+<div class="products-page">
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner />
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="empty-state">
+      <mat-icon>inventory_2</mat-icon>
+      <p>There are no sets yet.</p>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of products(); track product._id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,51 @@
+.product-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--mat-sys-level3);
+  }
+
+  &__image-wrapper {
+    position: relative;
+    overflow: hidden;
+
+    img[mat-card-image] {
+      height: 200px;
+      object-fit: contain;
+      margin: 0;
+      display: block;
+      width: 100%;
+    }
+  }
+
+  &__content {
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &__meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__price {
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+
+  &--wishlist {
+    background-color: #d5f5e3;
+  }
+
+  &--owned {
+    background-color: #d4e6f1;
+  }
+
+  &--sold {
+    background-color: #e8e8e8;
+  }
+}
