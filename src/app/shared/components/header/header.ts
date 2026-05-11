@@ -22,8 +22,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class Header {
   navItems = [
-    { label: 'Sets', route: '/products', icon: 'view_in_ar' },
-    { label: 'Wishlist', route: '/wishlist', icon: 'favorite' },
-    { label: 'SpareParts', route: '/spare-parts', icon: 'settings' },
+    { label: 'Sets', route: '/sets', icon: 'dashboard_customize' },
+    { label: 'Wunschliste', route: '/wishlist', icon: 'favorite' },
+    { label: 'Ersatzteile', route: '/spare-parts', icon: 'settings' },
   ];
 }
