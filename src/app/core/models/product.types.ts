@@ -1,50 +1,55 @@
-export const AVAILABILITY_STATUS = ['available', 'out_of_stock', 'coming_soon', 'discontinued'] as const;
-export type AvailabilityStatus = typeof AVAILABILITY_STATUS[number];
+export const AVAILABILITY_STATUS = [
+  'available',
+  'out_of_stock',
+  'coming_soon',
+  'discontinued',
+] as const;
+export type AvailabilityStatus = (typeof AVAILABILITY_STATUS)[number];
 
 export const BRICK_FORMATS = ['standard', 'diamond', 'mini', 'special'] as const;
-export type BrickFormat = typeof BRICK_FORMATS[number];
+export type BrickFormat = (typeof BRICK_FORMATS)[number];
 
 export const CONDITIONS = ['new', 'assembled', 'lent', 'stored'] as const;
-export type Condition = typeof CONDITIONS[number];
+export type Condition = (typeof CONDITIONS)[number];
 
 export const PRODUCT_STATUS = ['wishlist', 'owned', 'sold'] as const;
-export type ProductStatus = typeof PRODUCT_STATUS[number];
+export type ProductStatus = (typeof PRODUCT_STATUS)[number];
 
 export const STORAGE_TYPES = ['external', 'local'] as const;
-export type StorageType = typeof STORAGE_TYPES[number];
+export type StorageType = (typeof STORAGE_TYPES)[number];
 
 export interface Money {
-    amount: number;
-    currency: string;
+  amount: number;
+  currency: string;
 }
 
 export interface OwnershipData {
-    purchasePrice?: Money;
-    purchaseDate?: Date;
-    location?: string;
-    condition?: Condition;
+  purchasePrice?: Money;
+  purchaseDate?: Date;
+  location?: string;
+  condition?: Condition;
 }
 
 export interface ProductImage {
-    type: 'external' | 'local';
-    url: string;
-    isPrimary?: boolean;
+  type: 'external' | 'local';
+  url: string;
+  isPrimary?: boolean;
 }
 
 export interface ShopInfo {
-    name: string;
-    productUrl?: string;
+  name: string;
+  productUrl?: string;
 }
 
 export interface WishlistData {
-    priceAtAdding?: Money;
-    currentPrice?: Money;
-    availabilityStatus?: AvailabilityStatus;
-    lastCheckedAt?: Date;
+  priceAtAdding?: Money;
+  currentPrice?: Money;
+  availabilityStatus?: AvailabilityStatus;
+  lastCheckedAt?: Date;
 }
 
 export interface Product {
-  _id: string;
+  id: string;
   title: string;
   productNumber?: string;
   brand?: string;
