@@ -2,6 +2,9 @@
 
 Web app for managing your brick sets, built with Angular and Angular Material.
 
+## Preview
+![Alt-Text](public/Preview_Bricks.png)
+
 ## Tech Stack
 
 - **Framework:** Angular 21
