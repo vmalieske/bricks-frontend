@@ -24,6 +24,5 @@ export class Header {
   navItems = [
     { label: 'Sets', route: '/sets', icon: 'dashboard_customize' },
     { label: 'Wunschliste', route: '/wishlist', icon: 'favorite' },
-    { label: 'Ersatzteile', route: '/spare-parts', icon: 'settings' },
   ];
 }

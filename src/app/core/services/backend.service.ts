@@ -23,11 +23,11 @@ export class BackendService {
     return this.api.get<Product>(`/products/${id}`);
   }
 
-  createProduct(product: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>) {
+  createProduct(product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
     return this.api.post<Product>('/products', product);
   }
 
-  updateProduct(id: string, product: Partial<Omit<Product, '_id' | 'createdAt' | 'updatedAt'>>) {
+  updateProduct(id: string, product: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>) {
     return this.api.put<Product>(`/products/${id}`, product);
   }
 

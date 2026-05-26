@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -10,7 +11,7 @@ import { ProductCard } from '../components/product-card/product-card';
 
 @Component({
   selector: 'app-products-list',
-  imports: [MatIconModule, MatProgressSpinnerModule, ProductCard],
+  imports: [MatButtonModule, MatIconModule, MatProgressSpinnerModule, ProductCard, RouterModule],
   templateUrl: './products-list.html',
   styleUrl: './products-list.scss',
   standalone: true,

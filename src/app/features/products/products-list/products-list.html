@@ -13,9 +13,13 @@
     </div>
   } @else {
     <div class="products-grid">
-      @for (product of products(); track product._id) {
+      @for (product of products(); track product.id) {
         <app-product-card [product]="product" />
       }
     </div>
   }
+
+  <button mat-fab class="fab" routerLink="/sets/new">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
