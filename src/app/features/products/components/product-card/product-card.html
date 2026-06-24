@@ -7,6 +7,15 @@
     }
   </div>
 
+  <button
+    mat-icon-button
+    class="product-card__menu-btn"
+    [matMenuTriggerFor]="menu"
+    (click)="$event.stopPropagation()"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
   <div class="product-card__content">
     <mat-card-header>
       <div class="product-card__header-content">
@@ -28,3 +37,14 @@
     </mat-card-content>
   </div>
 </mat-card>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="edit.emit()">
+    <mat-icon>edit</mat-icon>
+    <span>Bearbeiten</span>
+  </button>
+  <button mat-menu-item (click)="delete.emit()">
+    <mat-icon color="warn">delete</mat-icon>
+    <span>Löschen</span>
+  </button>
+</mat-menu>

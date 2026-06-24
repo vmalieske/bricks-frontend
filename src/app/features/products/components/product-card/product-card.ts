@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Product } from '../../../../core/models/product.types';
@@ -12,10 +13,11 @@ import { Product } from '../../../../core/models/product.types';
 @Component({
   selector: 'app-product-card',
   imports: [
-    MatCardModule,
     MatButtonModule,
-    MatIconModule,
+    MatCardModule,
     MatChipsModule,
+    MatIconModule,
+    MatMenuModule,
     MatTooltipModule,
     CurrencyPipe,
   ],
