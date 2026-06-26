@@ -1,7 +1,7 @@
-<mat-card class="product-card" [class]="getStatusClass()" (click)="navigate.emit()">
+<mat-card class="product-card" [class]="statusClass()" (click)="navigate.emit()">
   <div class="product-card__image-wrapper">
-    @if (getPrimaryImage()) {
-      <img mat-card-image [src]="getPrimaryImage()" [alt]="product().title" />
+    @if (primaryImage()) {
+      <img mat-card-image [src]="primaryImage()" [alt]="product().title" />
     } @else {
       <img mat-card-image src="placeholder.png" alt="Placeholder image" />
     }
@@ -25,15 +25,22 @@
 
     <mat-card-content>
       <div class="product-card__meta">
-        <span>{{ product().brickCount }} Teile</span>
-        <span>{{ product().brickFormat }}</span>
-      </div>
+        <mat-chip-set>
+          <mat-chip> {{ product().brickCount }} Teile </mat-chip>
+          <mat-chip> {{ product().brickFormat }} </mat-chip>
+        </mat-chip-set>
 
-      @if (product().status === 'wishlist' && product().wishlistData?.currentPrice; as price) {
-        <p class="product-card__price">
-          {{ price.amount | currency: price.currency }}
-        </p>
-      }
+        @if (product().status === 'wishlist' && product().wishlistData?.currentPrice; as price) {
+          <p class="product-card__price">
+            {{ price.amount | currency: price.currency }}
+          </p>
+        }
+        @if (product().status === 'owned' && condition(); as config) {
+          <div class="product-card__condition">
+            <mat-icon [matTooltip]="config.label">{{ config.icon }}</mat-icon>
+          </div>
+        }
+      </div>
     </mat-card-content>
   </div>
 </mat-card>

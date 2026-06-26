@@ -3,6 +3,7 @@
   flex-direction: column;
   cursor: pointer;
   transition: box-shadow 0.2s;
+  height: 100%;
 
   &:hover {
     box-shadow: var(--mat-sys-level3);
@@ -23,6 +24,7 @@
 
   &__content {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
   }
 
   &__menu-btn {
@@ -40,7 +42,8 @@
 
   &__meta {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
     font-size: 0.875rem;
     color: var(--mat-sys-on-surface-variant);
   }
@@ -60,5 +63,27 @@
 
   &--sold {
     background-color: #e8e8e8;
+  }
+
+  &__condition {
+    display: flex;
+    align-items: center;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .product-card__header-content {
+    min-width: 0;
+
+    mat-card-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
