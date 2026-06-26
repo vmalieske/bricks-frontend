@@ -28,6 +28,7 @@ export class ProductCard {
   product = input.required<Product>();
   edit = output<void>();
   delete = output<void>();
+  navigate = output<void>();
 
   getPrimaryImage(): string | null {
     const product = this.product();

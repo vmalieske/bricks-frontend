@@ -1,4 +1,4 @@
-<mat-card class="product-card" [class]="getStatusClass()">
+<mat-card class="product-card" [class]="getStatusClass()" (click)="navigate.emit()">
   <div class="product-card__image-wrapper">
     @if (getPrimaryImage()) {
       <img mat-card-image [src]="getPrimaryImage()" [alt]="product().title" />

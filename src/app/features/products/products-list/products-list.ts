@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BackendService } from '../../../core/services/backend.service';
 import { Product } from '../../../core/models/product.types';
 import { ProductCard } from '../components/product-card/product-card';
+import { NavigationHandlerService } from '../../../core/services/navigationHandler.service';
 
 @Component({
   selector: 'app-products-list',
@@ -19,14 +20,18 @@ import { ProductCard } from '../components/product-card/product-card';
 export class ProductsListComponent implements OnInit {
   #backend = inject(BackendService);
   #route = inject(ActivatedRoute);
-  #router = inject(Router);
+  #navigate = inject(NavigationHandlerService);
 
   products = signal<Product[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
 
   navigateToEdit(id: string) {
-    this.#router.navigate(['/sets', id, 'edit']);
+    this.#navigate.toEdit(id);
+  }
+
+  navigateToDetail(id: string) {
+    this.#navigate.toDetailPage(id);
   }
 
   deleteProduct(id: string) {

@@ -11,4 +11,6 @@ export const NAVIGATION = {
   productNew: () => [ROUTE_PATHS.PRODUCTS, ROUTE_PATHS.NEW],
   productDetail: (id: string) => [ROUTE_PATHS.PRODUCTS, id],
   productEdit: (id: string) => [ROUTE_PATHS.PRODUCTS, id, ROUTE_PATHS.EDIT],
+  wishlistDetail: (id: string) => [ROUTE_PATHS.WISHLIST, id],
+  wishlistEdit: (id: string) => [ROUTE_PATHS.WISHLIST, id, ROUTE_PATHS.EDIT],
 } as const;
