@@ -1,0 +1,141 @@
+<div class="product-detail">
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner />
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (product(); as product) {
+    <div class="product-detail__gallery">
+      <div class="product-detail__gallery-main">
+        @if (getActiveImage()) {
+          <img [src]="getActiveImage()" [alt]="product.title" />
+        } @else {
+          <img src="placeholder.png" alt="Placeholder" />
+        }
+      </div>
+
+      @if (product.images && product.images.length > 1) {
+        <div class="product-detail__gallery-thumbs">
+          @for (image of product.images; track $index) {
+            <img
+              [src]="image.url"
+              [alt]="product.title"
+              [class.active]="activeImageIndex() === $index"
+              (click)="setActiveImage($index)"
+            />
+          }
+        </div>
+      }
+    </div>
+
+    <div class="product-detail__content">
+      <div class="product-detail__header">
+        <div class="product-detail__header-text">
+          <h1>{{ product.title }}</h1>
+          @if (product.brand || product.productNumber) {
+            <p class="product-detail__subtitle">
+              {{ product.brand }}{{ product.brand && product.productNumber ? ' · ' : ''
+              }}{{ product.productNumber }}
+            </p>
+          }
+          <mat-chip-set>
+            <mat-chip [color]="getStatusColor()" highlighted>
+              {{ getStatusLabel() }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div class="product-detail__header-actions">
+          <button mat-icon-button (click)="navigateToEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteProduct()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="product-detail__stats">
+        <div class="product-detail__stat">
+          <span class="product-detail__stat-label">Teile</span>
+          <span class="product-detail__stat-value">{{ product.brickCount }}</span>
+        </div>
+        <div class="product-detail__stat">
+          <span class="product-detail__stat-label">Format</span>
+          <span class="product-detail__stat-value">{{ product.brickFormat }}</span>
+        </div>
+        @if (product.productMeasurements) {
+          <div class="product-detail__stat">
+            <span class="product-detail__stat-label">Maße</span>
+            <span class="product-detail__stat-value">{{ product.productMeasurements }}</span>
+          </div>
+        }
+      </div>
+
+      @if (product.status === 'owned' && product.ownershipData; as ownership) {
+        <div class="product-detail__section">
+          @if (ownership.condition) {
+            <div class="product-detail__row">
+              <span>Zustand</span>
+              <span>{{ ownership.condition }}</span>
+            </div>
+          }
+          @if (ownership.purchasePrice) {
+            <div class="product-detail__row">
+              <span>Kaufpreis</span>
+              <span>{{
+                ownership.purchasePrice.amount | currency: ownership.purchasePrice.currency
+              }}</span>
+            </div>
+          }
+          @if (ownership.purchaseDate) {
+            <div class="product-detail__row">
+              <span>Kaufdatum</span>
+              <span>{{ ownership.purchaseDate | date: 'dd.MM.yyyy' }}</span>
+            </div>
+          }
+          @if (ownership.location) {
+            <div class="product-detail__row">
+              <span>Lagerort</span>
+              <span>{{ ownership.location }}</span>
+            </div>
+          }
+        </div>
+      }
+
+      @if (product.status === 'wishlist' && product.wishlistData; as wishlist) {
+        <div class="product-detail__section">
+          @if (wishlist.currentPrice) {
+            <div class="product-detail__row">
+              <span>Aktueller Preis</span>
+              <span>{{
+                wishlist.currentPrice.amount | currency: wishlist.currentPrice.currency
+              }}</span>
+            </div>
+          }
+          @if (wishlist.availabilityStatus) {
+            <div class="product-detail__row">
+              <span>Verfügbarkeit</span>
+              <span>{{ wishlist.availabilityStatus }}</span>
+            </div>
+          }
+        </div>
+      }
+
+      @if (product.notes) {
+        <div class="product-detail__section">
+          <h3>Notizen</h3>
+          <p>{{ product.notes }}</p>
+        </div>
+      }
+
+      <button mat-stroked-button (click)="navigateBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Zurück
+      </button>
+    </div>
+  }
+</div>

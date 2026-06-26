@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { BackendService } from '../../../core/services/backend.service';
 import { BRICK_FORMATS, CONDITIONS, PRODUCT_STATUS } from '../../../core/models/product.types';
+import { NavigationHandlerService } from '../../../core/services/navigationHandler.service';
 
 @Component({
   selector: 'app-product-form',
@@ -29,9 +30,9 @@ import { BRICK_FORMATS, CONDITIONS, PRODUCT_STATUS } from '../../../core/models/
 })
 export class ProductFormComponent implements OnInit {
   #backend = inject(BackendService);
-  #router = inject(Router);
-  #route = inject(ActivatedRoute);
   #formbuilder = inject(FormBuilder);
+  #navigate = inject(NavigationHandlerService);
+  #route = inject(ActivatedRoute);
 
   brickFormats = BRICK_FORMATS;
   conditions = CONDITIONS;
@@ -125,8 +126,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   navigateBack() {
-    const targetPage = this.form.value.status === 'wishlist' ? '/wishlist' : '/sets';
-    this.#router.navigate([targetPage]);
+    this.#navigate.back();
   }
 
   ngOnInit() {

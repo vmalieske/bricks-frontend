@@ -1,15 +1,20 @@
 import { Routes } from '@angular/router';
+import { ROUTE_PATHS } from './core/constants/routes';
 import { ProductsListComponent } from './features/products/products-list/products-list';
 import { ProductFormComponent } from './features/products/product-form/product-form';
+import { ProductDetailComponent } from './features/products/product-detail/product-detail';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'sets',
+    redirectTo: ROUTE_PATHS.PRODUCTS,
     pathMatch: 'full',
   },
-  { path: 'sets', component: ProductsListComponent, data: { status: 'owned' } },
-  { path: 'wishlist', component: ProductsListComponent, data: { status: 'wishlist' } },
-  { path: 'sets/new', component: ProductFormComponent },
-  { path: 'sets/:id/edit', component: ProductFormComponent },
+  { path: ROUTE_PATHS.PRODUCTS, component: ProductsListComponent, data: { status: 'owned' } },
+  { path: ROUTE_PATHS.WISHLIST, component: ProductsListComponent, data: { status: 'wishlist' } },
+  { path: `${ROUTE_PATHS.PRODUCTS}/${ROUTE_PATHS.NEW}`, component: ProductFormComponent },
+  { path: `${ROUTE_PATHS.PRODUCTS}/:id`, component: ProductDetailComponent },
+  { path: `${ROUTE_PATHS.PRODUCTS}/:id/${ROUTE_PATHS.EDIT}`, component: ProductFormComponent },
+  { path: `${ROUTE_PATHS.WISHLIST}/:id`, component: ProductDetailComponent },
+  { path: `${ROUTE_PATHS.WISHLIST}/:id/${ROUTE_PATHS.EDIT}`, component: ProductFormComponent },
 ];

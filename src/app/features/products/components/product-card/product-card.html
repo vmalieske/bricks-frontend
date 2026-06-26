@@ -1,11 +1,20 @@
-<mat-card class="product-card" [class]="getStatusClass()">
+<mat-card class="product-card" [class]="statusClass()" (click)="navigate.emit()">
   <div class="product-card__image-wrapper">
-    @if (getPrimaryImage()) {
-      <img mat-card-image [src]="getPrimaryImage()" [alt]="product().title" />
+    @if (primaryImage()) {
+      <img mat-card-image [src]="primaryImage()" [alt]="product().title" />
     } @else {
       <img mat-card-image src="placeholder.png" alt="Placeholder image" />
     }
   </div>
+
+  <button
+    mat-icon-button
+    class="product-card__menu-btn"
+    [matMenuTriggerFor]="menu"
+    (click)="$event.stopPropagation()"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
 
   <div class="product-card__content">
     <mat-card-header>
@@ -16,15 +25,33 @@
 
     <mat-card-content>
       <div class="product-card__meta">
-        <span>{{ product().brickCount }} Teile</span>
-        <span>{{ product().brickFormat }}</span>
-      </div>
+        <mat-chip-set>
+          <mat-chip> {{ product().brickCount }} Teile </mat-chip>
+          <mat-chip> {{ product().brickFormat }} </mat-chip>
+        </mat-chip-set>
 
-      @if (product().status === 'wishlist' && product().wishlistData?.currentPrice; as price) {
-        <p class="product-card__price">
-          {{ price.amount | currency: price.currency }}
-        </p>
-      }
+        @if (product().status === 'wishlist' && product().wishlistData?.currentPrice; as price) {
+          <p class="product-card__price">
+            {{ price.amount | currency: price.currency }}
+          </p>
+        }
+        @if (product().status === 'owned' && condition(); as config) {
+          <div class="product-card__condition">
+            <mat-icon [matTooltip]="config.label">{{ config.icon }}</mat-icon>
+          </div>
+        }
+      </div>
     </mat-card-content>
   </div>
 </mat-card>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="edit.emit()">
+    <mat-icon>edit</mat-icon>
+    <span>Bearbeiten</span>
+  </button>
+  <button mat-menu-item (click)="delete.emit()">
+    <mat-icon color="warn">delete</mat-icon>
+    <span>Löschen</span>
+  </button>
+</mat-menu>

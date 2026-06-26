@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BackendService } from '../../../core/services/backend.service';
 import { Product } from '../../../core/models/product.types';
 import { ProductCard } from '../components/product-card/product-card';
+import { NavigationHandlerService } from '../../../core/services/navigationHandler.service';
 
 @Component({
   selector: 'app-products-list',
@@ -19,10 +20,27 @@ import { ProductCard } from '../components/product-card/product-card';
 export class ProductsListComponent implements OnInit {
   #backend = inject(BackendService);
   #route = inject(ActivatedRoute);
+  #navigate = inject(NavigationHandlerService);
 
   products = signal<Product[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+
+  navigateToEdit(id: string) {
+    this.#navigate.toEdit(id);
+  }
+
+  navigateToDetail(id: string) {
+    this.#navigate.toDetailPage(id);
+  }
+
+  deleteProduct(id: string) {
+    this.#backend.deleteProduct(id).subscribe({
+      next: () => {
+        this.products.update((products) => products.filter((p) => p.id !== id));
+      },
+    });
+  }
 
   ngOnInit() {
     const status = this.#route.snapshot.data['status'];

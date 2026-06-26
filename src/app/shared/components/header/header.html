@@ -1,21 +1,21 @@
 <mat-toolbar class="header">
-    <div class="header__logo" routerLink="/products">
-        <img src="Logo_einzeln.png" alt="Bricks Logo" />
-        <span>Bricks</span>
-    </div>
+  <div class="header__logo" (click)="navigateToHome()">
+    <img src="Logo_einzeln.png" alt="Bricks Logo" />
+    <span>Bricks</span>
+  </div>
 
-    <nav class="header__nav">
-        @for (item of navItems; track item.route) {
-            <a mat-button [routerLink]="item.route"] routerLinkActive="header__nav-item--active">
-                <mat-icon>{{ item.icon }}</mat-icon>
-                {{ item.label }}
-            </a>
-        }
-    </nav>
+  <nav class="header__nav">
+    @for (item of navItems; track item.route) {
+      <a mat-button [routerLink]="item.route" routerLinkActive="header__nav-item--active">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        {{ item.label }}
+      </a>
+    }
+  </nav>
 
-    <div class="header__actions">
-        <button mat-icon-button matTooltip="Profil" disabled>
-            <mat-icon>account_circle</mat-icon>
-        </button>
-    </div>
+  <div class="header__actions">
+    <button mat-icon-button matTooltip="Profil" disabled>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
