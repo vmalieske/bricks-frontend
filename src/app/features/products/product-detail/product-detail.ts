@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +23,7 @@ import { NavigationHandlerService } from '../../../core/services/navigationHandl
     DatePipe,
   ],
   templateUrl: './product-detail.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-detail.scss',
 })
 export class ProductDetailComponent implements OnInit {
