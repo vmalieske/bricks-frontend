@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +22,7 @@ import { Product } from '../../../../core/models/product.types';
     CurrencyPipe,
   ],
   templateUrl: './product-card.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-card.scss',
 })
 export class ProductCard {

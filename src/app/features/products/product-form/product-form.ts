@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
@@ -26,6 +26,7 @@ import { NavigationHandlerService } from '../../../core/services/navigationHandl
     MatProgressSpinnerModule,
   ],
   templateUrl: './product-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-form.scss',
 })
 export class ProductFormComponent implements OnInit {
