@@ -22,7 +22,7 @@ import { Product } from '../../../../core/models/product.types';
     CurrencyPipe,
   ],
   templateUrl: './product-card.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './product-card.scss',
 })
 export class ProductCard {

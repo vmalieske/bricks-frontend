@@ -18,7 +18,7 @@
 .product-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 
   h3 {
     margin: 0.5rem 0 0;
@@ -26,10 +26,6 @@
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-  }
-
-  mat-form-field {
-    width: 100%;
   }
 
   &__row {
@@ -44,4 +40,49 @@
     gap: 0.5rem;
     margin-top: 1rem;
   }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--mat-sys-primary);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--mat-sys-error);
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
 }

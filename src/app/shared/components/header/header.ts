@@ -21,7 +21,7 @@ import { NavigationHandlerService } from '../../../core/services/navigationHandl
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class Header {
