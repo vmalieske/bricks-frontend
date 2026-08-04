@@ -12,6 +12,33 @@
     </div>
   } @else {
     <form [formRoot]="productForm" class="product-form">
+      <div class="product-form__scrape">
+        <div class="form-field">
+          <label>BlueBrixx URL</label>
+          <input
+            type="url"
+            [value]="scrapeUrl()"
+            (input)="scrapeUrl.set($any($event.target).value)"
+            placeholder="https://www.bluebrixx.com/de/prod/..."
+          />
+        </div>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="scrapeFromUrl()"
+          [disabled]="scraping() || !scrapeUrl()"
+        >
+          @if (scraping()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            <ng-container>
+              <mat-icon>auto_awesome</mat-icon>
+              Daten laden
+            </ng-container>
+          }
+        </button>
+      </div>
+
       <h3>Allgemein</h3>
 
       <div class="form-field">
@@ -104,9 +131,13 @@
       </div>
 
       <div class="product-form__actions">
-        <button mat-stroked-button type="button" (click)="this.navigateBack()">Abbrechen</button>
+        <button mat-stroked-button type="button" (click)="navigateBack()">Abbrechen</button>
         <button mat-flat-button type="submit" [disabled]="productForm().submitting() || loading()">
-          {{ isEditMode() ? 'Speichern' : 'Hinzufügen' }}
+          @if (productForm().submitting()) {
+            Wird gespeichert...
+          } @else {
+            {{ isEditMode() ? 'Speichern' : 'Hinzufügen' }}
+          }
         </button>
       </div>
     </form>
