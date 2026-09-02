@@ -7,7 +7,7 @@ import { Header } from './shared/components/header/header';
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, Header],
 })
 export class App {

@@ -11,96 +11,101 @@
       <mat-spinner />
     </div>
   } @else {
-    <form [formGroup]="form" (ngSubmit)="submit()" class="product-form">
+    <form [formRoot]="productForm" class="product-form">
       <h3>Allgemein</h3>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Titel</mat-label>
-        <input matInput formControlName="title" />
-        @if (form.get('title')?.hasError('required')) {
-          <mat-error>Titel ist erforderlich</mat-error>
+      <div class="form-field">
+        <label>Titel *</label>
+        <input type="text" [formField]="productForm.title" />
+        @if (productForm.title().touched() && productForm.title().invalid()) {
+          @for (error of productForm.title().errors(); track error) {
+            <span class="form-error">{{ error.message }}</span>
+          }
         }
-      </mat-form-field>
-
-      <div class="product-form__row">
-        <mat-form-field appearance="outline">
-          <mat-label>Brick Format</mat-label>
-          <mat-select formControlName="brickFormat">
-            @for (format of brickFormats; track format) {
-              <mat-option [value]="format">{{ format }}</mat-option>
-            }
-          </mat-select>
-          @if (form.get('brickFormat')?.hasError('required')) {
-            <mat-error>Brick Format ist erforderlich</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Anzahl Teile</mat-label>
-          <input matInput type="number" formControlName="brickCount" />
-          @if (form.get('brickCount')?.hasError('required')) {
-            <mat-error>Anzahl ist erforderlich</mat-error>
-          }
-          @if (form.get('brickCount')?.hasError('min')) {
-            <mat-error>Mindestens 1 Teil</mat-error>
-          }
-        </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
-          @for (status of productStatus; track status) {
-            <mat-option [value]="status">{{ status }}</mat-option>
+      <div class="product-form__row">
+        <div class="form-field">
+          <label>Brick Format *</label>
+          <select [formField]="productForm.brickFormat">
+            <option value="">Bitte wählen</option>
+            @for (format of brickFormats; track format) {
+              <option [value]="format">{{ format }}</option>
+            }
+          </select>
+          @if (productForm.brickFormat().touched() && productForm.brickFormat().invalid()) {
+            @for (error of productForm.brickFormat().errors(); track error) {
+              <span class="form-error">{{ error.message }}</span>
+            }
           }
-        </mat-select>
-      </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label>Anzahl Teile *</label>
+          <input type="number" [formField]="productForm.brickCount" />
+          @if (productForm.brickCount().touched() && productForm.brickCount().invalid()) {
+            @for (error of productForm.brickCount().errors(); track error) {
+              <span class="form-error">{{ error.message }}</span>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Status *</label>
+        <select [formField]="productForm.status">
+          @for (status of productStatus; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </div>
 
       <h3>Optional</h3>
 
       <div class="product-form__row">
-        <mat-form-field appearance="outline">
-          <mat-label>Produktnummer</mat-label>
-          <input matInput formControlName="productNumber" />
-        </mat-form-field>
+        <div class="form-field">
+          <label>Produktnummer</label>
+          <input type="text" [formField]="productForm.productNumber" />
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Marke</mat-label>
-          <input matInput formControlName="brand" />
-        </mat-form-field>
+        <div class="form-field">
+          <label>Marke</label>
+          <input type="text" [formField]="productForm.brand" />
+        </div>
       </div>
 
       <div class="product-form__row">
-        <mat-form-field appearance="outline">
-          <mat-label>Shop Name</mat-label>
-          <input matInput formControlName="shopName" />
-        </mat-form-field>
+        <div class="form-field">
+          <label>Shop Name</label>
+          <input type="text" [formField]="productForm.shopName" />
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Shop URL</mat-label>
-          <input matInput formControlName="shopUrl" />
-        </mat-form-field>
+        <div class="form-field">
+          <label>Shop URL</label>
+          <input type="text" [formField]="productForm.shopUrl" />
+        </div>
       </div>
 
-      @if (isOwned) {
-        <mat-form-field appearance="outline">
-          <mat-label>Zustand</mat-label>
-          <mat-select formControlName="condition">
+      @if (isOwned()) {
+        <div class="form-field">
+          <label>Zustand</label>
+          <select [formField]="productForm.condition">
+            <option value="">Bitte wählen</option>
             @for (condition of conditions; track condition) {
-              <mat-option [value]="condition">{{ condition }}</mat-option>
+              <option [value]="condition">{{ condition }}</option>
             }
-          </mat-select>
-        </mat-form-field>
+          </select>
+        </div>
       }
 
-      <mat-form-field appearance="outline">
-        <mat-label>Notizen</mat-label>
-        <textarea matInput formControlName="notes" rows="3"></textarea>
-      </mat-form-field>
+      <div class="form-field">
+        <label>Notizen</label>
+        <textarea [formField]="productForm.notes" rows="3"></textarea>
+      </div>
 
       <div class="product-form__actions">
-        <button mat-stroked-button type="button" (click)="navigateBack()">Abbrechen</button>
-        <button mat-flat-button type="submit" [disabled]="form.invalid || loading()">
+        <button mat-stroked-button type="button" (click)="this.navigateBack()">Abbrechen</button>
+        <button mat-flat-button type="submit" [disabled]="productForm().submitting() || loading()">
           {{ isEditMode() ? 'Speichern' : 'Hinzufügen' }}
         </button>
       </div>

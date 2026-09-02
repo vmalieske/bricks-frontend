@@ -23,7 +23,7 @@ import { NavigationHandlerService } from '../../../core/services/navigationHandl
     DatePipe,
   ],
   templateUrl: './product-detail.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './product-detail.scss',
 })
 export class ProductDetailComponent implements OnInit {

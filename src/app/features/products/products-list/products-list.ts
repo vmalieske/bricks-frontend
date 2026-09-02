@@ -15,7 +15,7 @@ import { NavigationHandlerService } from '../../../core/services/navigationHandl
   imports: [MatButtonModule, MatIconModule, MatProgressSpinnerModule, ProductCard, RouterModule],
   templateUrl: './products-list.html',
   styleUrl: './products-list.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ProductsListComponent implements OnInit {
