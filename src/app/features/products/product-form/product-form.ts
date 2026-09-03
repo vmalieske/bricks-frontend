@@ -142,6 +142,15 @@ export class ProductFormComponent implements OnInit {
       this.isEditMode.set(true);
       this.productId.set(id);
       this.loadProduct(id);
+    } else {
+      const status = this.#route.snapshot.data['status'];
+
+      if (status) {
+        this.formModel.update((model) => ({
+          ...model,
+          status: status,
+        }));
+      }
     }
   }
 }

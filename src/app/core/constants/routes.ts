@@ -9,6 +9,7 @@ export const NAVIGATION = {
   products: () => [ROUTE_PATHS.PRODUCTS],
   wishlist: () => [ROUTE_PATHS.WISHLIST],
   productNew: () => [ROUTE_PATHS.PRODUCTS, ROUTE_PATHS.NEW],
+  wishlistNew: () => [ROUTE_PATHS.WISHLIST, ROUTE_PATHS.NEW],
   productDetail: (id: string) => [ROUTE_PATHS.PRODUCTS, id],
   productEdit: (id: string) => [ROUTE_PATHS.PRODUCTS, id, ROUTE_PATHS.EDIT],
   wishlistDetail: (id: string) => [ROUTE_PATHS.WISHLIST, id],

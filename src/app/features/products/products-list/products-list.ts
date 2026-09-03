@@ -27,6 +27,10 @@ export class ProductsListComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
+  navigateToNewProduct() {
+    this.#navigate.toNewProduct();
+  }
+
   navigateToEdit(id: string) {
     this.#navigate.toEdit(id);
   }

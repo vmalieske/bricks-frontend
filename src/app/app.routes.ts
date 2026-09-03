@@ -12,9 +12,18 @@ export const routes: Routes = [
   },
   { path: ROUTE_PATHS.PRODUCTS, component: ProductsListComponent, data: { status: 'owned' } },
   { path: ROUTE_PATHS.WISHLIST, component: ProductsListComponent, data: { status: 'wishlist' } },
-  { path: `${ROUTE_PATHS.PRODUCTS}/${ROUTE_PATHS.NEW}`, component: ProductFormComponent },
+  {
+    path: `${ROUTE_PATHS.PRODUCTS}/${ROUTE_PATHS.NEW}`,
+    component: ProductFormComponent,
+    data: { status: 'owned' },
+  },
   { path: `${ROUTE_PATHS.PRODUCTS}/:id`, component: ProductDetailComponent },
   { path: `${ROUTE_PATHS.PRODUCTS}/:id/${ROUTE_PATHS.EDIT}`, component: ProductFormComponent },
+  {
+    path: `${ROUTE_PATHS.WISHLIST}/${ROUTE_PATHS.NEW}`,
+    component: ProductFormComponent,
+    data: { status: 'wishlist' },
+  },
   { path: `${ROUTE_PATHS.WISHLIST}/:id`, component: ProductDetailComponent },
   { path: `${ROUTE_PATHS.WISHLIST}/:id/${ROUTE_PATHS.EDIT}`, component: ProductFormComponent },
 ];
