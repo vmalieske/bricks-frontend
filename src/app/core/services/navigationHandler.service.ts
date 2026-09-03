@@ -22,7 +22,7 @@ export class NavigationHandlerService {
     this.#router.navigate(NAVIGATION.wishlist());
   }
 
-  toPriductDetail(id: string) {
+  toProductDetail(id: string) {
     this.#router.navigate(NAVIGATION.productDetail(id));
   }
 
@@ -31,7 +31,7 @@ export class NavigationHandlerService {
   }
 
   toDetailPage(id: string) {
-    this.isWishlistContext() ? this.toWishlistDetail(id) : this.toPriductDetail(id);
+    this.isWishlistContext() ? this.toWishlistDetail(id) : this.toProductDetail(id);
   }
 
   toEdit(id: string) {
@@ -40,8 +40,10 @@ export class NavigationHandlerService {
       : this.#router.navigate(NAVIGATION.productEdit(id));
   }
 
-  toNewProductForm() {
-    this.#router.navigate(NAVIGATION.productNew());
+  toNewProduct() {
+    this.isWishlistContext()
+      ? this.#router.navigate(NAVIGATION.wishlistNew())
+      : this.#router.navigate(NAVIGATION.productNew());
   }
 
   back() {
