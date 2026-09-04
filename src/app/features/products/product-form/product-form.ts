@@ -7,7 +7,9 @@ import {
   computed,
 } from '@angular/core';
 import { form, FormField, FormRoot, required, min } from '@angular/forms/signals';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+
+import { firstValueFrom } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +25,6 @@ import {
   ProductStatus,
 } from '../../../core/models/product.types';
 import { NavigationHandlerService } from '../../../core/services/navigationHandler.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-product-form',
@@ -42,8 +43,10 @@ export class ProductFormComponent implements OnInit {
   productStatus = PRODUCT_STATUS;
 
   loading = signal(false);
+  scraping = signal(false);
   isEditMode = signal(false);
   productId = signal<string | null>(null);
+  scrapeUrl = signal('');
 
   formModel = signal({
     title: '',
@@ -54,6 +57,7 @@ export class ProductFormComponent implements OnInit {
     brand: '',
     shopName: '',
     shopUrl: '',
+    imageUrl: '',
     condition: '' as Condition | '',
     notes: '',
   });
@@ -62,10 +66,10 @@ export class ProductFormComponent implements OnInit {
     this.formModel,
     (schema) => {
       required(schema.title, { message: 'Title is required!' });
-      required(schema.brickFormat, { message: 'Brick Format ist erforderlich!' });
-      required(schema.brickCount, { message: 'Brick Anzahl ist erforderlich!' });
-      min(schema.brickCount, 1, { message: 'Mindestens 1 Teil ist erforderlich!' });
-      required(schema.status, { message: 'Status ist erforderlich!' });
+      required(schema.brickFormat, { message: 'Brick Format is required!' });
+      required(schema.brickCount, { message: 'Brick count is required!' });
+      min(schema.brickCount, 1, { message: 'At least 1 part is required!' });
+      required(schema.status, { message: 'Status is required!' });
     },
     {
       submission: {
@@ -78,6 +82,9 @@ export class ProductFormComponent implements OnInit {
             status: value.status,
             productNumber: value.productNumber || undefined,
             brand: value.brand || undefined,
+            images: value.imageUrl
+              ? [{ type: 'external' as const, url: value.imageUrl, isPrimary: true }]
+              : undefined,
             shop: value.shopName
               ? { name: value.shopName, productUrl: value.shopUrl || undefined }
               : undefined,
@@ -95,10 +102,10 @@ export class ProductFormComponent implements OnInit {
               await firstValueFrom(this.#backend.createProduct(payload));
             }
             this.#navigate.back();
-            return; // ← explizites return für Erfolg
+            return;
           } catch (error) {
             console.error('Cannot save product', error);
-            return { kind: 'serverError', message: 'Speichern fehlgeschlagen' };
+            return { kind: 'serverError', message: 'Saving failed' };
           }
         },
       },
@@ -107,11 +114,38 @@ export class ProductFormComponent implements OnInit {
 
   isOwned = computed(() => this.formModel().status === 'owned');
 
+  scrapeFromUrl() {
+    const url = this.scrapeUrl();
+    if (!url) return;
+    this.scraping.set(true);
+
+    this.#backend.scrapeProduct(url).subscribe({
+      next: (result) => {
+        console.log('Scrape result:', result);
+        this.formModel.update((model) => ({
+          ...model,
+          title: result.title ?? model.title,
+          brand: result.brand ?? model.brand,
+          productNumber: result.productNumber ?? model.productNumber,
+          brickCount: result.brickCount ?? model.brickCount,
+          brickFormat: (result.brickFormat as typeof model.brickFormat) ?? model.brickFormat,
+          shopName: 'BlueBrixx',
+          shopUrl: result.shopUrl,
+          imageUrl: result.imageUrl ?? model.imageUrl,
+        }));
+        this.scraping.set(false);
+      },
+      error: () => this.scraping.set(false),
+    });
+  }
+
   loadProduct(id: string) {
     this.loading.set(true);
 
     this.#backend.getProductById(id).subscribe({
       next: (product) => {
+        const primaryImage = product.images?.find((img) => img.isPrimary) ?? product.images?.[0];
+
         this.formModel.set({
           title: product.title,
           brickFormat: product.brickFormat,
@@ -121,6 +155,7 @@ export class ProductFormComponent implements OnInit {
           brand: product.brand ?? '',
           shopName: product.shop?.name ?? '',
           shopUrl: product.shop?.productUrl ?? '',
+          imageUrl: primaryImage?.url ?? '',
           condition: product.ownershipData?.condition ?? '',
           notes: product.notes ?? '',
         });

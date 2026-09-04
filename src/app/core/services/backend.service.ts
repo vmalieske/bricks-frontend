@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import type { Product } from '../models/product.types';
+import { ScrapeResult, type Product } from '../models/product.types';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
@@ -33,5 +33,9 @@ export class BackendService {
 
   deleteProduct(id: string) {
     return this.api.delete<{ message: string; id: string }>(`/products/${id}`);
+  }
+
+  scrapeProduct(url: string) {
+    return this.api.post<ScrapeResult>('/scrape/product', { url });
   }
 }

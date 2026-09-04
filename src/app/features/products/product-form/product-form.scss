@@ -28,6 +28,30 @@
     letter-spacing: 0.05em;
   }
 
+  &__scrape {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 8px;
+    background: var(--mat-sys-surface-variant);
+    margin-bottom: 0.5rem;
+
+    .form-field {
+      flex: 1;
+    }
+
+    button {
+      flex-shrink: 0;
+      height: 44px;
+
+      .mat-icon {
+        vertical-align: middle;
+      }
+    }
+  }
+
   &__row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -85,4 +109,10 @@
   display: flex;
   justify-content: center;
   padding: 4rem;
+}
+
+.product-form__image-preview {
+  max-width: 200px;
+  border-radius: 8px;
+  align-self: flex-start;
 }
