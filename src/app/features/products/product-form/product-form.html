@@ -88,13 +88,69 @@
       </div>
 
       <div class="form-field">
-        <label>Bild-URL</label>
-        <input type="text" [formField]="productForm.imageUrl" />
-      </div>
+        <label>Bilder</label>
+        <mat-tab-group (selectedIndexChange)="onImageTabChange($event)">
+          <mat-tab label="Link">
+            <div class="image-tab-content">
+              <div class="image-tab-content__input-row">
+                <input
+                  type="url"
+                  [value]="linkImageInput()"
+                  (input)="linkImageInput.set($any($event.target).value)"
+                  (keydown.enter)="$event.preventDefault(); addLinkImage()"
+                  placeholder="https://..."
+                />
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="addLinkImage()"
+                  [disabled]="!linkImageInput()"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Upload">
+            <div class="image-tab-content">
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                multiple
+                (change)="onFilesSelected($event)"
+                [disabled]="uploadingImages()"
+              />
+              @if (uploadingImages()) {
+                <mat-spinner diameter="20" />
+              }
+            </div>
+          </mat-tab>
+        </mat-tab-group>
 
-      @if (formModel().imageUrl) {
-        <img [src]="formModel().imageUrl" alt="Vorschau" class="product-form__image-preview" />
-      }
+        @if (formModel().images.length > 0) {
+          <div class="image-grid">
+            @for (image of formModel().images; track image.url; let i = $index) {
+              <div class="image-grid__item" [class.image-grid__item--primary]="image.isPrimary">
+                <img [src]="imageSrc(image)" alt="Product image" />
+                <div class="image-grid__actions">
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="setPrimaryImage(i)"
+                    [disabled]="image.isPrimary"
+                    title="Als Hauptbild setzen"
+                  >
+                    <mat-icon>{{ image.isPrimary ? 'star' : 'star_border' }}</mat-icon>
+                  </button>
+                  <button mat-icon-button type="button" (click)="removeImage(i)" title="Entfernen">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
 
       <h3>Optional</h3>
 

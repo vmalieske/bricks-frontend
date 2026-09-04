@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
+
 import { ApiService } from './api.service';
-import { ScrapeResult, type Product } from '../models/product.types';
+import { ProductImage, ScrapeResult, type Product } from '../models/product.types';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
@@ -37,5 +38,15 @@ export class BackendService {
 
   scrapeProduct(url: string) {
     return this.api.post<ScrapeResult>('/scrape/product', { url });
+  }
+
+  uploadImages(files: File[]) {
+    const formData = new FormData();
+    files.forEach((file) => formData.append('images', file));
+    return this.api.post<{ images: ProductImage[] }>('/uploads/images', formData);
+  }
+
+  deleteImage(url: string) {
+    return this.api.delete<{ message: string }>('/uploads/images', { url });
   }
 }
