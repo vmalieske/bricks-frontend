@@ -3,7 +3,7 @@
     <button mat-icon-button (click)="navigateBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1>{{ isEditMode() ? 'Set bearbeiten' : 'Neues Set' }}</h1>
+    <h1>{{ isEditMode() ? 'Edit Set' : 'New Set' }}</h1>
   </div>
 
   @if (loading()) {
@@ -33,7 +33,7 @@
           } @else {
             <ng-container>
               <mat-icon>auto_awesome</mat-icon>
-              Daten laden
+              Load data...
             </ng-container>
           }
         </button>
@@ -55,7 +55,7 @@
         <div class="form-field">
           <label>Brick Format *</label>
           <select [formField]="productForm.brickFormat">
-            <option value="">Bitte wählen</option>
+            <option value="">Please choose</option>
             @for (format of brickFormats; track format) {
               <option [value]="format">{{ format }}</option>
             }
@@ -68,7 +68,7 @@
         </div>
 
         <div class="form-field">
-          <label>Anzahl Teile *</label>
+          <label>Brick Count *</label>
           <input type="number" [formField]="productForm.brickCount" />
           @if (productForm.brickCount().touched() && productForm.brickCount().invalid()) {
             @for (error of productForm.brickCount().errors(); track error) {
@@ -87,16 +87,25 @@
         </select>
       </div>
 
+      <div class="form-field">
+        <label>Bild-URL</label>
+        <input type="text" [formField]="productForm.imageUrl" />
+      </div>
+
+      @if (formModel().imageUrl) {
+        <img [src]="formModel().imageUrl" alt="Vorschau" class="product-form__image-preview" />
+      }
+
       <h3>Optional</h3>
 
       <div class="product-form__row">
         <div class="form-field">
-          <label>Produktnummer</label>
+          <label>Produktnumber</label>
           <input type="text" [formField]="productForm.productNumber" />
         </div>
 
         <div class="form-field">
-          <label>Marke</label>
+          <label>Brand</label>
           <input type="text" [formField]="productForm.brand" />
         </div>
       </div>
@@ -117,7 +126,7 @@
         <div class="form-field">
           <label>Zustand</label>
           <select [formField]="productForm.condition">
-            <option value="">Bitte wählen</option>
+            <option value="">Please choose</option>
             @for (condition of conditions; track condition) {
               <option [value]="condition">{{ condition }}</option>
             }
@@ -126,7 +135,7 @@
       }
 
       <div class="form-field">
-        <label>Notizen</label>
+        <label>Notes</label>
         <textarea [formField]="productForm.notes" rows="3"></textarea>
       </div>
 
@@ -134,7 +143,7 @@
         <button mat-stroked-button type="button" (click)="navigateBack()">Abbrechen</button>
         <button mat-flat-button type="submit" [disabled]="productForm().submitting() || loading()">
           @if (productForm().submitting()) {
-            Wird gespeichert...
+            Saving...
           } @else {
             {{ isEditMode() ? 'Speichern' : 'Hinzufügen' }}
           }

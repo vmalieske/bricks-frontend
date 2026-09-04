@@ -57,6 +57,7 @@ export class ProductFormComponent implements OnInit {
     brand: '',
     shopName: '',
     shopUrl: '',
+    imageUrl: '',
     condition: '' as Condition | '',
     notes: '',
   });
@@ -81,6 +82,9 @@ export class ProductFormComponent implements OnInit {
             status: value.status,
             productNumber: value.productNumber || undefined,
             brand: value.brand || undefined,
+            images: value.imageUrl
+              ? [{ type: 'external' as const, url: value.imageUrl, isPrimary: true }]
+              : undefined,
             shop: value.shopName
               ? { name: value.shopName, productUrl: value.shopUrl || undefined }
               : undefined,
@@ -127,6 +131,7 @@ export class ProductFormComponent implements OnInit {
           brickFormat: (result.brickFormat as typeof model.brickFormat) ?? model.brickFormat,
           shopName: 'BlueBrixx',
           shopUrl: result.shopUrl,
+          imageUrl: result.imageUrl ?? model.imageUrl,
         }));
         this.scraping.set(false);
       },
@@ -139,6 +144,8 @@ export class ProductFormComponent implements OnInit {
 
     this.#backend.getProductById(id).subscribe({
       next: (product) => {
+        const primaryImage = product.images?.find((img) => img.isPrimary) ?? product.images?.[0];
+
         this.formModel.set({
           title: product.title,
           brickFormat: product.brickFormat,
@@ -148,6 +155,7 @@ export class ProductFormComponent implements OnInit {
           brand: product.brand ?? '',
           shopName: product.shop?.name ?? '',
           shopUrl: product.shop?.productUrl ?? '',
+          imageUrl: primaryImage?.url ?? '',
           condition: product.ownershipData?.condition ?? '',
           notes: product.notes ?? '',
         });
