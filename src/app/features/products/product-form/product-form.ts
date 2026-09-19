@@ -78,6 +78,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     images: [] as ProductImage[],
     condition: '' as Condition | '',
     notes: '',
+    currentPrice: null as number | null,
+    priceCurrency: 'EUR',
   });
 
   productForm = form(
@@ -107,6 +109,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             ownershipData:
               this.isOwned() && value.condition
                 ? { condition: value.condition as Condition }
+                : undefined,
+            wishlistData:
+              !this.isOwned() && value.currentPrice
+                ? {
+                    currentPrice: {
+                      amount: value.currentPrice,
+                      currency: value.priceCurrency,
+                    },
+                    priceAtAdding: {
+                      amount: value.currentPrice,
+                      currency: value.priceCurrency,
+                    },
+                  }
                 : undefined,
             notes: value.notes || undefined,
           };
@@ -225,6 +240,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           brickFormat: (result.brickFormat as typeof model.brickFormat) ?? model.brickFormat,
           shopName: 'BlueBrixx',
           shopUrl: result.shopUrl,
+          currentPrice: result.price?.amount ?? model.currentPrice,
+          priceCurrency: result.price?.currency ?? model.priceCurrency,
           images:
             result.imageUrls.length > 0
               ? result.imageUrls.map((url, i) => ({
@@ -234,6 +251,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
                 }))
               : model.images,
         }));
+        this.scrapeUrl.set('');
         this.activeImageTab.set('link');
         this.scraping.set(false);
       },
@@ -257,6 +275,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           shopUrl: product.shop?.productUrl ?? '',
           images: product.images ?? [],
           condition: product.ownershipData?.condition ?? '',
+          currentPrice: product.wishlistData?.currentPrice?.amount ?? null,
+          priceCurrency: product.wishlistData?.currentPrice?.currency ?? 'EUR',
           notes: product.notes ?? '',
         });
         this.activeImageTab.set(product.images?.[0]?.type === 'local' ? 'upload' : 'link');

@@ -190,6 +190,17 @@
         </div>
       }
 
+      @if (!isOwned()) {
+        <div class="form-field">
+          <label>Preis</label>
+          <input
+            type="number"
+            [value]="formModel().currentPrice ?? ''"
+            (input)="formModel.update((m) => ({ ...m, currentPrice: +$any($event.target).value }))"
+          />
+        </div>
+      }
+
       <div class="form-field">
         <label>Notes</label>
         <textarea [formField]="productForm.notes" rows="3"></textarea>
