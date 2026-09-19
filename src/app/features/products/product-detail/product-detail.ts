@@ -36,6 +36,7 @@ export class ProductDetailComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
   activeImageIndex = signal(0);
+  updatingPrice = signal(false);
 
   getActiveImage(): string | null {
     const images = this.product()?.images;
@@ -71,6 +72,22 @@ export class ProductDetailComponent implements OnInit {
     if (!id) return;
     this.#backend.deleteProduct(id).subscribe({
       next: () => this.#navigate.back(),
+    });
+  }
+
+  updatePrice() {
+    const id = this.product()?.id;
+    if (!id) return;
+    this.updatingPrice.set(true);
+
+    this.#backend.updateProductPrice(id).subscribe({
+      next: (updated) => {
+        console.log('updated product:', updated);
+        console.log('lastCheckedAt:', updated.wishlistData?.lastCheckedAt);
+        this.product.set(updated);
+        this.updatingPrice.set(false);
+      },
+      error: () => this.updatingPrice.set(false),
     });
   }
 

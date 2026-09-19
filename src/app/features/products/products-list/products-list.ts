@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  ChangeDetectionStrategy,
+  computed,
+} from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +33,9 @@ export class ProductsListComponent implements OnInit {
   products = signal<Product[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  updatingPrices = signal(false);
+
+  isWishlist = computed(() => this.#route.snapshot.data['status'] === 'wishlist');
 
   navigateToNewProduct() {
     this.#navigate.toNewProduct();
@@ -47,21 +57,37 @@ export class ProductsListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  updateAllPrices() {
+    this.updatingPrices.set(true);
+
+    this.#backend.updateWishlistPrices().subscribe({
+      next: (result) => {
+        this.loadProducts();
+        this.updatingPrices.set(false);
+        console.log(`Updated: ${result.updated}, Skipped: ${result.skipped}`);
+      },
+      error: () => this.updatingPrices.set(false),
+    });
+  }
+
+  loadProducts() {
     const status = this.#route.snapshot.data['status'];
-    let productCall;
+    const call =
+      status === 'owned' ? this.#backend.getOwnedProducts() : this.#backend.getWishlistProducts();
 
-    if (status === 'owned') productCall = this.#backend.getOwnedProducts();
-    if (status === 'wishlist') productCall = this.#backend.getWishlistProducts();
-
-    productCall?.subscribe({
+    call.subscribe({
       next: (products) => {
         this.products.set(products);
         this.loading.set(false);
       },
       error: () => {
         this.error.set('Products could not be loaded!');
+        this.loading.set(false);
       },
     });
+  }
+
+  ngOnInit() {
+    this.loadProducts();
   }
 }

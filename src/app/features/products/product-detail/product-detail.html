@@ -116,11 +116,32 @@
               }}</span>
             </div>
           }
+          @if (wishlist.lastCheckedAt) {
+            <div class="product-detail__row">
+              <span>Zuletzt geprüft</span>
+              <span>{{ wishlist.lastCheckedAt | date: 'dd.MM.yyyy HH:mm' }}</span>
+            </div>
+          }
           @if (wishlist.availabilityStatus) {
             <div class="product-detail__row">
               <span>Verfügbarkeit</span>
               <span>{{ wishlist.availabilityStatus }}</span>
             </div>
+          }
+          @if (product.shop?.productUrl) {
+            <button
+              mat-stroked-button
+              class="product-detail__update-btn"
+              (click)="updatePrice()"
+              [disabled]="updatingPrice()"
+            >
+              <mat-icon>sync</mat-icon>
+              @if (updatingPrice()) {
+                Wird aktualisiert...
+              } @else {
+                Preis aktualisieren
+              }
+            </button>
           }
         </div>
       }

@@ -1,4 +1,17 @@
 <div class="products-page">
+  <div class="products-page__header">
+    @if (isWishlist()) {
+      <button mat-stroked-button (click)="updateAllPrices()" [disabled]="updatingPrices()">
+        <mat-icon>sync</mat-icon>
+        @if (updatingPrices()) {
+          Wird aktualisiert...
+        } @else {
+          Preis aktualisieren
+        }
+      </button>
+    }
+  </div>
+
   @if (loading()) {
     <div class="loading-state">
       <mat-spinner />
