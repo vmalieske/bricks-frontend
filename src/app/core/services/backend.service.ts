@@ -49,4 +49,15 @@ export class BackendService {
   deleteImage(url: string) {
     return this.api.delete<{ message: string }>('/uploads/images', { url });
   }
+
+  updateWishlistPrices() {
+    return this.api.post<{ updated: number; skipped: number }>(
+      '/products/wishlist/update-prices',
+      {},
+    );
+  }
+
+  updateProductPrice(id: string) {
+    return this.api.post<Product>(`/products/${id}/update-price`, {});
+  }
 }

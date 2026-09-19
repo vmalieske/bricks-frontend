@@ -2,6 +2,13 @@
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+    min-height: 40px;
+  }
 }
 
 .loading-state,
@@ -63,6 +70,12 @@
   &__price {
     margin-top: 0.5rem;
     font-weight: 500;
+  }
+
+  &__update-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   mat-card-actions {
