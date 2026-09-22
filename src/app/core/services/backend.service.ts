@@ -7,7 +7,6 @@ import { ProductImage, ScrapeResult, type Product } from '../models/product.type
 export class BackendService {
   private api = inject(ApiService);
 
-  // Products
   getAllProducts() {
     return this.api.get<Product[]>('/products');
   }

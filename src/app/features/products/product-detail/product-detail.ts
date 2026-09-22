@@ -38,6 +38,12 @@ export class ProductDetailComponent implements OnInit {
   activeImageIndex = signal(0);
   updatingPrice = signal(false);
 
+  isExternalImage(): boolean {
+    const url = this.getActiveImage();
+    if (!url) return false;
+    return url.startsWith('http://') || url.startsWith('https://');
+  }
+
   getActiveImage(): string | null {
     const images = this.product()?.images;
     if (!images?.length) return null;

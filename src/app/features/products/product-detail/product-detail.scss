@@ -141,6 +141,24 @@
   }
 }
 
+.product-detail {
+  &__image-copyright {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+    word-break: break-all;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--mat-primary, #3f51b5);
+      }
+    }
+  }
+}
+
 .loading-state,
 .error-state {
   display: flex;

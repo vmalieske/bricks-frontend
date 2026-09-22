@@ -12,6 +12,15 @@
       <div class="product-detail__gallery-main">
         @if (getActiveImage()) {
           <img [src]="getActiveImage()" [alt]="product.title" />
+
+          @if (isExternalImage()) {
+            <div class="product-detail__image-copyright">
+              Bild-Link:
+              <a [href]="getActiveImage()" target="_blank" rel="noopener noreferrer">{{
+                getActiveImage()
+              }}</a>
+            </div>
+          }
         } @else {
           <img src="placeholder.png" alt="Placeholder" />
         }
